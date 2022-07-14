@@ -14,39 +14,37 @@ class tree{
         }
 };
 
+void bottomview_util(tree* head, int lat, int alt, vector<pair<int,int>> &hr){
+    if(head == NULL)return;
+    bottomview_util(head->left,lat-1,alt+1,hr);
+    bottomview_util(head->right,lat+1,alt+1,hr);
 
-vector<int> topview(tree* head){
-    tree* curr = head;
-    vector<int> topvieworder;
-    stack<int> st;
-    while(curr != NULL){
-        st.push(curr->data);
-        curr = curr->left;
-    }
-    while(!st.empty()){
-        topvieworder.push_back(st.top());
-        st.pop();
-    }
-        
-    curr = head->right;
+    if(alt < hr[lat].second) hr[lat] = {head->data, alt};
+}
 
-    while(curr != NULL){
-        topvieworder.push_back(curr->data);
-        curr = curr->right;
+vector<int> bottomview(tree* head){
+    pair<int,int> a = {INT16_MAX,INT16_MAX};
+    vector<pair<int,int>> hr;
+    for(int i=0;i<100;i++)hr.push_back(a);
+    vector<int> ans;
+    bottomview_util(head, 50, 0, hr);
+    
+    for(auto i: hr){
+        if(i!=a) ans.push_back(i.first);
     }
-    return topvieworder;
+
+    return ans;
 }
 
 int main(){
     tree* head = new tree(1);
     head->left = new tree(2);
     head->right = new tree(3);
-    head->right->right = new tree(0);
     head->left->left = new tree(4);
     head->left->left->left = new tree(5);
     head->left->left->right = new tree(6);
 
-    for(auto i:topview(head)){
+    for(auto i:bottomview(head)){
         cout << i << ' ';
     }
 
