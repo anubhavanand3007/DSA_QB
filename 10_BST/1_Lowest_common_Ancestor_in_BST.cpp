@@ -23,8 +23,8 @@ int LCAinBST(tree* root, int n1, int n2){
 }
 
 int main(){
-    tree* head = new tree(10);
-    head->left = new tree(20);
+    tree* head = new tree(25);
+    head->left = new tree(2);
     head->right = new tree(30);
     head->left->left = new tree(1);
     head->left->left->left = new tree(0);
